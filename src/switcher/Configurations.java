@@ -6,11 +6,13 @@ import java.util.Map;
 public class Configurations
 {
     public Map<String, ConfigEntry> configEntries;
+    public Map<String, GameEntry> gameEntries;
     public String decafConfigPath;
 
     public Configurations()
     {
         this.configEntries = new HashMap<String, ConfigEntry>();
+        this.gameEntries = new HashMap<String, GameEntry>();
         this.decafConfigPath = "";
     }
 
@@ -25,22 +27,23 @@ public class Configurations
     public static class ConfigEntry
     {
         public DebuggerOptions debugger;
+        public GameOptions game;
         public GPUOptions gpu;
         public GX2Options gx2;
-        public Map<String, PadOptions> input;
+        public Map<String, Object> input; //Untouched by us
         public JITOptions jit;
         public LogOptions log;
-        public SystemOptions system;
+        public Object system; //Untouched by us
 
         public ConfigEntry()
         {
             this.debugger = new DebuggerOptions();
+            this.game = new GameOptions();
             this.gpu = new GPUOptions();
             this.gx2 = new GX2Options();
             this.input = new HashMap();
             this.jit = new JITOptions();
             this.log = new LogOptions();
-            this.system = new SystemOptions();
         }
     }
 
@@ -50,6 +53,11 @@ public class Configurations
         public boolean breakOnEntry;
     }
 
+    public static class GameOptions
+    {
+        public String path;
+    }
+    
     public static class GPUOptions
     {
         public boolean forceSync;
@@ -59,33 +67,6 @@ public class Configurations
     {
         public boolean dumpTextures;
         public boolean dumpShaders;
-    }
-
-    public static class PadOptions
-    {
-        public String name;
-        public int buttonUp;
-        public int buttonDown;
-        public int buttonLeft;
-        public int buttonRight;
-        public int buttonA;
-        public int buttonB;
-        public int buttonX;
-        public int buttonY;
-        public int buttonTriggerR;
-        public int buttonTriggerL;
-        public int buttonTriggerZr;
-        public int buttonTriggerZl;
-        public int buttonStickL;
-        public int buttonStickR;
-        public int buttonPlus;
-        public int buttonMinus;
-        public int buttonHome;
-        public int buttonSync;
-        public int leftStickX;
-        public int leftStickY;
-        public int rightStickX;
-        public int rightStickY;
     }
 
     public static class JITOptions
@@ -102,10 +83,16 @@ public class Configurations
         public boolean kernelTrace;
         public boolean branchTrace;
         public String level;
+        public String[] kernelTraceFilters;
     }
-
-    public static class SystemOptions
+    
+    public static class GameEntry
     {
-        public String systemPath;
+        public String path;
+        
+        public GameEntry(String path)
+        {
+            this.path = path;
+        }
     }
 }
